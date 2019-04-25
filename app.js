@@ -95,7 +95,7 @@ app.get("/active/:linkHash", activaController.activa_controller_get);
 app.get("/auth/google", googleController.google_controller_verificar);
 app.get("/auth/google/usrhome", googleController.google_controller_verificado);
 
-
+//middleware para redirigir si no esta isAuthenticated
 app.all("*", checkLogueado);
 
 
@@ -104,6 +104,7 @@ app.get("/usrhome", usrhomeController.usrhome_controller_get);
 
 app.get("/logout", loginController.logout_controller_get);
 
+//middleware para redirigir si esAdmin = false
 
 app.all("*", checkAdmin);
 
