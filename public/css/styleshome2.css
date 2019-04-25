@@ -1,0 +1,154 @@
+/* .imgfondo {
+  background-image: url(/images/ojofondo1920x1080.jpg);
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+} */
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  text-align: center;
+}
+
+.product-device{
+  border-top-left-radius: 30;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Montserrat", sans-serif;
+  font-weight: bold;
+}
+
+.hero-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+  background-image: url(/images/ojofondo1920x1080.jpg); /* The image used */
+  background-color: #cccccc; /* Used if the image is unavailable */
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* Do not repeat the image */
+  background-size: cover; /* Resize the background image to cover the entire container */
+}
+
+.chiquinav {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+}
+
+.btnhome2 {
+  margin-bottom: 20px;
+}
+
+.cajablanca {
+  position: absolute;
+  margin-top: 80px;
+  width: 300px;
+  padding-left: 20px;
+  padding-right: 20px;
+  right: 10%;
+  /* left: 75%; */
+  background-color: #ffffff;
+}
+
+
+.titular {
+  position: relative;
+  margin-top: 60px;
+  left: 50px;
+  background-color: transparent;
+  color: white;
+  width: 450px;
+  text-align: left;
+  font-size: 3.5rem;
+  line-height: 1.25;
+  font-weight: 900;
+  font-family: "Montserrat", sans-serif;
+
+}
+
+
+.form-control {
+  /* margin-top: 20px;
+  margin-bottom: 20px;
+  height: 2rem; */
+}
+
+.row {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+@media (max-width: 600px) {
+
+
+  .titular{
+  font-size: 1.5rem;
+  max-width: 250px;
+  position: relative;
+  left: 0;
+
+  }
+
+  .cajablanca {
+    position: absolute;
+    width: 250px;
+    max-width: 250px;
+    margin-top: 400px;
+    margin-left: 40px;
+
+    padding-left: 20px;
+    padding-right: 20px;
+
+    /* left: 75%; */
+    background-color: #6f0820;
+  }
+}
+
+.container-fluid{
+  height: 500px;
+  background-image: url(/images/ojofondo1920x1080.jpg); /* The image used */
+  background-color: #cccccc; /* Used if the image is unavailable */
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* Do not repeat the image */
+  background-size: cover; /* Resize the background image to cover the entire container */
+}
+.top {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.bottom {
+
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+
+}
+
+.middle {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.tarjeta-imagen {
+  text-align: center;
+  position: relative;
+  max-width: 200px;
+  margin-top: 15px;
+}
+
+.tarjeta-texto {
+  text-align: center;
+
+}

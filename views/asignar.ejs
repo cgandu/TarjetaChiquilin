@@ -1,0 +1,37 @@
+<%- include("partials/header"); -%>
+
+
+<div class="table-responsive">
+        <table class="table table-striped table-sm">
+          <thead>
+            <tr>
+              <th>E-M@IL</th>
+              <th>Usuario</th>
+              <th>Fecha registro</th>
+              <th>Id</th>
+              <th>Insertar Nombre y Apellido</th>
+              <th>Insertar DNI</th>
+              <th>Asignar Tarjeta</th>
+            </tr>
+          </thead>
+          <tbody>
+          <% docs.forEach(function(doc){ %>
+          <form class="" action="/asignar" method="post">
+            <tr>
+              <td><%=doc.email %></td>
+              <td><%=doc.username %></td>
+              <td><%=doc.fechaCreado %></td>
+              <td><input type="text" name="idCliente" value="<%=doc._id %>" readonly placeholder="<%=doc._id %>"></td>
+              <td><input type="text" name="nomCliente" placeholder="Ingrese Nombre y Apellido" required></td>
+              <td><input type="number" name="dniCliente" placeholder="Ingrese DNI" required></td>
+              <td><button type="submit" name="button">Asignar Tarjeta</button></td>
+            </tr>
+          </form>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+
+
+
+<%- include("partials/footer"); -%>

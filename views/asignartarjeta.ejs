@@ -1,0 +1,57 @@
+<%- include("partials/header"); -%>
+
+<a href="/admin"><i class="fas fa-home fa-3x homeicon"></i></a>
+
+<div class="jumbotron">
+
+<form class="form-signin"  action="/asignartarjeta" method="post">
+  <div class="mb-3">
+
+    <div class="input-group input-group-top">
+      <div class="input-group-prepend">
+        <span class="input-group-text">Id: </span>
+      </div>
+      <input type="text" class="form-control campo" name="idCliente" value="<%= locals.id %>" placeholder="<%= locals.id %>" required readonly>
+    </div>
+
+    <div class="input-group input-group-top">
+      <div class="input-group-prepend">
+        <span class="input-group-text">E-M@IL: </span>
+      </div>
+      <input type="text" class="form-control campo" name="email" value="<%= locals.email %>" placeholder="<%= locals.email %>" required readonly>
+    </div>
+
+    <div class="input-group input-group-top">
+      <div class="input-group-prepend">
+        <span class="input-group-text">Usuario: </span>
+      </div>
+      <input type="text" class="form-control campo" name="username" value="<%= locals.username %>" placeholder="<%= locals.username %>" required readonly>
+    </div>
+
+    <div class="input-group input-group-top">
+      <div class="input-group-prepend">
+        <span class="input-group-text">Nombre y Apellido: </span>
+      </div>
+      <input type="text" class="form-control campo" name="nomCliente" value="<%= locals.nombreCliente %>" placeholder="<%= locals.nombreCliente %>" required readonly>
+    </div>
+
+    <div class="input-group input-group-top">
+      <div class="input-group-prepend">
+        <span class="input-group-text">DNI: </span>
+      </div>
+      <input type="text" class="form-control campo" name="dniCliente" value="<%= locals.dniCliente %>" placeholder="<%= locals.dniCliente %>" required readonly>
+    </div>
+
+    <h1 class="h3 mb-3 font-weight-normal">Deslice Tarjeta a Asignar</h1>
+    <label for="inputEmail" class="sr-only">Deslice Tarjeta a Asignar</label>
+    <input type="password" minlength="8" maxlength="9" name="numTarjeta" class="form-control top tarjeta" placeholder="Deslice Tarjeta a Asignar" required autofocus>
+
+    <button display="none" class="btn btn-lg btn-outline-secondary btn-block" style="margin-top: 8px" type="submit">Ingresar Cliente</button>
+  </div>
+
+</form>
+
+</div>
+
+
+<%- include("partials/footer"); -%>

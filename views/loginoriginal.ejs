@@ -1,0 +1,32 @@
+<%- include('partials/header') %>
+
+
+<form class="form-signin-2" action="/login" method="post">
+  <h1>Iniciar Sesión</h1>
+  <br>
+
+  <div class="form-signin-2">
+
+    <h1 class="h3 mb-3 font-weight-normal">Usuario</h1>
+    <label for="inputEmail" class="sr-only">Usuario</label>
+    <input type="text"  name="username" class="form-control top" style="margin-bottom: 10px;" placeholder="Nombre de Usuario" required autofocus>
+    <h1 class="h3 mb-3 font-weight-normal">Contraseña</h1>
+    <label for="inputEmail" class="sr-only">Contraseña</label>
+    <input type="password" name="password"  class="form-control top" placeholder="Contraseña" required autofocus>
+
+    <hr>
+
+    <button class="btn btn-lg btn-outline-secondary btn-block" type="submit">Log in</button>
+    <hr>
+    <a class="btn btn-block btn-social btn-google" href="/auth/google" role="button">
+      <i class="fab fa-google"></i>
+      LogIn con Google
+    </a>
+    <hr>
+    <p class="mt-5 mb-3 text-muted">&copy; Chiquilin-2019</p>
+  </div>
+
+</form>
+
+
+  <%- include('partials/footer') %>

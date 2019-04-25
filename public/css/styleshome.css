@@ -1,0 +1,133 @@
+
+.tarjeta-imagen {
+  position: absolute;
+  transform: rotate(-30deg);
+  top: 15%;
+  left: -5%;
+
+}
+
+.container-fluid {
+
+}
+
+
+
+.list-movimientos {
+  min-height: 250px;
+  height: 250px;
+  overflow-y: scroll;
+  background-color: #ffffff;
+}
+
+.my-0 {
+  color: #000000;
+}
+
+.form-registro {
+  position: relative;
+  width: 300px;
+  padding-left: 20px;
+  padding-right: 20px;
+  /* left: 75%; */
+  background-color: #6f0820;
+}
+
+#fondoojo {
+  background-image: url(/images/fondoliviano.jpg); /* The image used */
+  background-color: #cccccc; /* Used if the image is unavailable */
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* Do not repeat the image */
+  background-size: cover; /* Resize the background image to cover the entire container */
+  color: #ffffff;
+  margin-top: 0;
+}
+
+.titulo {
+  font-family: "Raleway", sans-serif;
+  font-weight: 900;
+}
+
+.bajada {
+  font-weight: 500;
+  font-size: 1.5rem;
+}
+
+.logochiquilin {
+  margin-top: -120px;
+}
+
+.barranav {
+  background-color: #343a40;
+
+}
+
+.a-nav {
+  color: #ffffff;
+  text-decoration: none;
+  margin-right: 8px;
+  margin-left: 8px;
+}
+
+#botonregistro {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+#botonregistro2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.a-nav:link {
+  color: #ffffff;
+  text-decoration: none;
+}
+.a-nav:visited {
+  color: #ffffff;
+  text-decoration: none;
+}
+.a-nav:hover {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.a-nav:active {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+  .top {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  .bottom {
+
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+
+  }
+
+  .middle {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  .flex-container {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+  }
+
+.caja {
+  width: 350px;
+  height: 390px;
+}
+.caja-form {
+  width: 350px;
+  height: 390px;
+  background-color: transparent;
+  padding: 20px;
+}
