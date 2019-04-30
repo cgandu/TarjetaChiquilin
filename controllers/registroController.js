@@ -14,9 +14,9 @@ const activacionEmail = funciones.activacionEmail;
 
 exports.registro_controller_get = function(req, res){
   if (req.isAuthenticated()) {
-    res.redirect("/usrhome");
+    return res.redirect("/usrhome");
   } else {
-    res.render("registro", {logmethod: "LogIn"});
+    return res.render("registro", {logmethod: "LogIn"});
   }
 
 };
@@ -48,13 +48,14 @@ exports.registro_controller_post = function(req, res){
   //   Usuario.findOne({dniCliente: req.body.dniCliente}, function(err, doc){
   //     if (!err) {
   //       if (doc) {
-  //         reject("DNI Cliente ya existe //");
+  //         return reject("DNI Cliente ya existe //");
   //       } else {
   //         resolve("DNI OK");
   //       }
   //     } else {
-  //       res.send("Error con DNI ingresado");
   //       console.log(err);
+  //       return res.send("Error con DNI ingresado");
+  //
   //     }
   //   });
   // });
@@ -64,13 +65,14 @@ exports.registro_controller_post = function(req, res){
     Usuario.findOne({email: req.body.mailCliente}, function(err, doc){
       if (!err) {
         if (doc) {
-          reject("E-mail de cliente ya existe //");
+          return reject("E-mail de cliente ya existe //");
         } else {
           resolve("Mail OK");
         }
       } else {
-        res.send("Error con email ingresado");
         console.log(err);
+        return res.send("Error con email ingresado");
+
       }
     });
   });
@@ -80,13 +82,13 @@ exports.registro_controller_post = function(req, res){
     Usuario.findOne({username: req.body.username}, function(err, doc){
       if (!err) {
         if (doc) {
-          reject("Usuario ya existe //");
+          return reject("Usuario ya existe //");
         } else {
           resolve("Usuario OK");
         }
       } else {
         console.log(err);
-        res.send("Error con Usuario ingresado");
+        return res.send("Error con Usuario ingresado");
       }
     });
   });
@@ -113,7 +115,7 @@ Promise.all([
   fechaCreado: fechaRegistro}, req.body.password, function(err, user){
       if (err) {
         console.log(err);
-        res.redirect("/registro");
+        return res.redirect("/registro");
       } else {
         passport.authenticate("local")(req, res, function(){
           activacionEmail(linkhash, req.body.mailCliente);
@@ -121,7 +123,7 @@ Promise.all([
           res.render("activecuenta", {logmethod: "LogIn"});
           nuevoMovimiento.save(function(err) {
             if (err) {
-              console.log(err);
+              return console.log(err);
             }
           });
         });

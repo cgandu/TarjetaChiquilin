@@ -36,7 +36,7 @@ passport.use(new GoogleStrategy({
                   Usuario.findOne({email: profile.emails[0].value}, function(err, doc){
                     if (!err) {
                       if (doc) {
-                        reject("E-mail de cliente ya existe //");
+                        return reject("E-mail de cliente ya existe //");
                       } else {
                         resolve("Mail OK");
                       }
@@ -73,7 +73,7 @@ passport.use(new GoogleStrategy({
                   //guardo nuevo usuario y lo devuelvo a passport
                   nuevoUsuario.save(function(err){
                     if (err) {
-                      console.log(err);
+                      return console.log(err);
                     }
 
                     return cb(err, nuevoUsuario);
