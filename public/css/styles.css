@@ -63,7 +63,6 @@ border-style: dashed;
 .btnsellogratis {
 min-height: 35px;
 border-color: #CACACA;
-
 font-size: 25px;
 border-style: dashed;
 }
@@ -72,6 +71,12 @@ border-style: dashed;
 position: absolute;
 right: 30px;
 top: 15px;
+}
+
+.cashregistericon {
+position: absolute;
+right: 30px;
+top: 90px;
 }
 
 .downloadicon {

@@ -16,7 +16,7 @@ exports.registro_controller_get = function(req, res){
   if (req.isAuthenticated()) {
     return res.redirect("/usrhome");
   } else {
-    return res.render("registro", {logmethod: "LogIn"});
+    return res.render("registro", {logmethod: "Log In"});
   }
 
 };

@@ -11,6 +11,15 @@
 
 }
 
+.carousel-control-next-icon {
+  position: absolute;
+  right: 10px;
+}
+
+.carousel-control-prev-icon {
+  position: absolute;
+  left: 10px;
+}
 
 
 .list-movimientos {

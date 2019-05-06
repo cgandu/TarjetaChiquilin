@@ -3,42 +3,33 @@
   <div class="flex-container justify-content-around">
 
     <div class="caja">
-      <h1 class="display-4 titulo"><%= locals.titulo %></h1>
-      <p class="bajada"><%= locals.nombreCliente %></p>
-      <p class="bajada"><%= locals.numeroCliente %></p>
-      <p class="bajada"><%= locals.puntosCliente%></p>
+      <h1 class="display-4 titulo">Pedí tu<br>tarjeta</h1>
+      <p class="bajada">Para obtener tu tarjeta registraá tu usuario desde nuestra web.</p>
+      <p class="bajada">Desde la sección "Registro" creá tu nuevo usuario y contraseña y seguí las instrucciones</p>
+
     </div>
 
     <div class="caja">
-      <p class="bajada"><%= locals.mensaje1 %></p>
-      <p class="bajada"><%= locals.mensaje2 %></p>
-      <p class="bajada"><%=locals.mensaje3%></p>
+      <h1 class="display-4 titulo">Sumá<br>puntos</h1>
+      <p class="bajada">Presentá tu Tarjeta Chiquilín al pedir la cuenta y empezá a sumar</p>
+      <p class="bajada">Cuanto más consumas, más puntos sumás.</p>
     </div>
 
-<div class="caja">
-  <p class="bajada">Movimientos</p>
-  <ul class="list-group mb-3 list-movimientos">
+    <div class="caja">
+      <h1 class="display-4 titulo">Canjéa<br>premios</h1>
+      <p class="bajada">Chequeá tus puntos acumulados desde nuestra web con tu usuario y contraseña</p>
+      <p class="bajada">Podés canjear tus puntos por comidas, entradas para el teatro, descuentos y más.</p>
 
-    <% movs.forEach(function(mov) { %>
-      <li class="list-group-item d-flex justify-content-between lh-condensed">
-        <div>
-          <h6 class="my-0"><%= mov.fecha %></h6>
-          <small class="text-muted"><%= mov.hora %></small>
-        </div>
-        <span class="text-muted"><%= mov.accion %></span>
-      </li>
-    <% }) %>
+    </div>
 
-  </ul>
 
-</div>
   </div>
 
 
 
   <div class="product-device product-device-2 shadow-sm d-none d-md-block"></div>
 </div>
-<div class="flex-container justify-content-around" style="background-color: #343a40;">
+<!-- <div class="flex-container justify-content-around" style="background-color: #343a40;">
   <div class="card m-3" style="width: 14rem; height: 18rem;">
     <img src="/images/chicos/entradas.jpg" class="card-img-top" alt="...">
     <div class="card-body">
@@ -74,7 +65,7 @@
     <a href="#" class="btn btn-primary" style="width: 100%;">Ver canje</a>
   </div>
   </div>
-</div>
+</div> -->
 
 <script type="text/javascript">
   $.getJSON("api/user_data", function(data) {

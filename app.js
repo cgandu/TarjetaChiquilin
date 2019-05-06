@@ -95,9 +95,49 @@ app.get("/active/:linkHash", activaController.activa_controller_get);
 app.get("/auth/google", googleController.google_controller_verificar);
 app.get("/auth/google/usrhome", googleController.google_controller_verificado);
 
+app.get("/comofunciona", function(req, res) {
+  if (req.isAuthenticated()) {
+    return res.render("comofunciona", {logmethod: "Log Out"});
+  } else {
+    return res.render("comofunciona", {logmethod: "Log In"});
+  }
+});
+
+app.get("/canjea", function(req, res) {
+  if (req.isAuthenticated()) {
+    return res.render("canjea", {logmethod: "Log Out"});
+  } else {
+    return res.render("canjea", {logmethod: "Log In"});
+  }
+});
+
+app.get("/beneficios", function(req, res) {
+  if (req.isAuthenticated()) {
+    return res.render("beneficios", {logmethod: "Log Out"});
+  } else {
+    return res.render("beneficios", {logmethod: "Log In"});
+  }
+});
+
 //middleware para redirigir si no esta isAuthenticated
 app.all("*", checkLogueado);
 
+app.get("/vinos", function(req, res){
+  Usuario.findOne({_id: req.user._id}, function(err, doc){
+    if (doc) {
+      res.render("vinos", {
+        movs: doc.accionesCliente,
+        titulo: "Mi Cuenta",
+        nombreCliente: "Cliente: " + doc.nombreCliente,
+        numeroCliente: "Numero: " + doc.numeroCliente,
+        puntosCliente: "Puntos: " + doc.puntosCliente,
+        logmethod: "LogOut"
+      });
+    }
+  });
+
+
+});
 
 
 app.get("/usrhome", usrhomeController.usrhome_controller_get);
