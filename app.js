@@ -79,9 +79,9 @@ function checkAdmin(req, res, next) {
 
 app.get("/", function(req, res) {
   if (req.isAuthenticated()) {
-    res.render("home", {logmethod: "LogOut"});
+    res.render("home", {logmethod: "Log Out"});
   } else {
-    res.render("home", {logmethod: "LogIn"});
+    res.render("home", {logmethod: "Log In"});
   }
 
 });
