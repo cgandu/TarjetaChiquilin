@@ -16,7 +16,7 @@ exports.registro_controller_get = function(req, res){
   if (req.isAuthenticated()) {
     return res.redirect("/usrhome");
   } else {
-    return res.render("registro", {logmethod: "Log In"});
+    return res.render("registro", {logmethod: "Login"});
   }
 
 };
@@ -120,7 +120,7 @@ Promise.all([
         passport.authenticate("local")(req, res, function(){
           activacionEmail(linkhash, req.body.mailCliente);
           req.logout();
-          res.render("activecuenta", {logmethod: "LogIn"});
+          res.render("activecuenta", {logmethod: "Login"});
           nuevoMovimiento.save(function(err) {
             if (err) {
               return console.log(err);

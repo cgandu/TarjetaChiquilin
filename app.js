@@ -79,9 +79,9 @@ function checkAdmin(req, res, next) {
 
 app.get("/", function(req, res) {
   if (req.isAuthenticated()) {
-    res.render("home", {logmethod: "Log Out"});
+    res.render("home", {logmethod: "Logout"});
   } else {
-    res.render("home", {logmethod: "Log In"});
+    res.render("home", {logmethod: "Login"});
   }
 
 });
@@ -97,25 +97,25 @@ app.get("/auth/google/usrhome", googleController.google_controller_verificado);
 
 app.get("/comofunciona", function(req, res) {
   if (req.isAuthenticated()) {
-    return res.render("comofunciona", {logmethod: "Log Out"});
+    return res.render("comofunciona", {logmethod: "Logout"});
   } else {
-    return res.render("comofunciona", {logmethod: "Log In"});
+    return res.render("comofunciona", {logmethod: "Login"});
   }
 });
 
 app.get("/canjea", function(req, res) {
   if (req.isAuthenticated()) {
-    return res.render("canjea", {logmethod: "Log Out"});
+    return res.render("canjea", {logmethod: "Logout"});
   } else {
-    return res.render("canjea", {logmethod: "Log In"});
+    return res.render("canjea", {logmethod: "Login"});
   }
 });
 
 app.get("/beneficios", function(req, res) {
   if (req.isAuthenticated()) {
-    return res.render("beneficios", {logmethod: "Log Out"});
+    return res.render("beneficios", {logmethod: "Logout"});
   } else {
-    return res.render("beneficios", {logmethod: "Log In"});
+    return res.render("beneficios", {logmethod: "Login"});
   }
 });
 
@@ -131,7 +131,7 @@ app.get("/vinos", function(req, res){
         nombreCliente: "Cliente: " + doc.nombreCliente,
         numeroCliente: "Numero: " + doc.numeroCliente,
         puntosCliente: "Puntos: " + doc.puntosCliente,
-        logmethod: "LogOut"
+        logmethod: "Logout"
       });
     }
   });

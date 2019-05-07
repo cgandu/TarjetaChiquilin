@@ -23,7 +23,7 @@ exports.usrhome_controller_get = function(req, res) {
               nombreCliente: "Cliente: " + doc.nombreCliente,
               numeroCliente: "Numero: " + doc.numeroCliente,
               puntosCliente: "Puntos: " + doc.puntosCliente,
-              logmethod: "Log Out"
+              logmethod: "Logout"
             });
           } else {
             if (doc.activado === true) {
@@ -34,7 +34,7 @@ exports.usrhome_controller_get = function(req, res) {
                 mensaje1: "\n",
                 mensaje2: "\n",
                 mensaje3: "Desde esta pantalla vas a poder revisar tus consumos, tus puntos acumulados, realizar canjes y más",
-                logmethod: "Log Out"
+                logmethod: "Logout"
               });
             } else {
               res.render("usrhome", {
@@ -44,7 +44,7 @@ exports.usrhome_controller_get = function(req, res) {
                 mensaje1: "Una vez activada podrás pedir tu credencial de Tarjeta Chiquilín en nuestro local",
                 mensaje2: "\n \n",
                 mensaje3: "Con tu credencial vas a poder revisar tus consumos, tus puntos acumulados, realizar canjes y más",
-                logmethod: "Log Out"
+                logmethod: "Logout"
               });
             }
           }

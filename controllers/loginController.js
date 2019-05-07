@@ -7,9 +7,9 @@ const passport = require("passport");
 exports.login_controller_get = function(req, res){
 
   if (req.isAuthenticated()) {
-    res.render("home", {logmethod: "Log Out"});
+    res.render("home", {logmethod: "Logout"});
   } else {
-    res.render("login", {logmethod: "Log In"});
+    res.render("login", {logmethod: "Login"});
   }
 
 };
