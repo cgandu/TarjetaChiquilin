@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+
+    <form class="" action="/cargaproductos" method="post">
+      nombre producto:
+      <input type="text" name="nombreProducto" value="" required><br>
+      puntos producto:
+      <input type="number" name="puntosProducto" value="" required><br>
+      nombre imagen:
+      <input type="text" name="nombreImagen" value="" required><br>
+      nombre imagen2:
+      <input type="text" name="nombreImagen2" value=""><br>
+
+      <button type="submit" name="button">CARGAR PRODUCTO</button>
+    </form>
+    <br>
+
+    nombreProducto: String,
+    puntosProducto: {
+      type: Number,
+      min: 1000,
+      max: 999999
+    },
+    nombreImagen: String,
+    activo: Boolean
+<img src="/images/productos/<%= locals.rutaimagen %>.jpg" alt="">
+
+  </body>
+</html>

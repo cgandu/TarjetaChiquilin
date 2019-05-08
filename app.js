@@ -51,6 +51,7 @@ mongoose.connect(process.env.MONGO_ATLAS_SRV, {useNewUrlParser: true});
 const Admin = require(__dirname+"/models/Admin");
 const Movimiento = require(__dirname+"/models/Movimiento");
 const Usuario = require(__dirname+"/models/Usuario");
+const Producto = require(__dirname+"/models/Producto");
 
 passport.use(Usuario.createStrategy());
 passport.serializeUser(function(user, done) {
@@ -147,6 +148,36 @@ app.get("/logout", loginController.logout_controller_get);
 //middleware para redirigir si esAdmin = false
 
 app.all("*", checkAdmin);
+
+// app.get("/cargaproductos", function(req, res) {
+// res.render("cargaproductos");
+//
+//
+// });
+//
+// app.post("/cargaproductos", function(req, res) {
+//   const nombreProducto = req.body.nombreProducto;
+//   const puntosProducto = req.body.puntosProducto;
+//   const nombreImagen = req.body.nombreImagen;
+//   const nombreImagen2 = req.body.nombreImagen2;
+//
+//
+//   const nuevoProducto = new Producto ({
+//     nombreProducto: nombreProducto,
+//     puntosProducto: puntosProducto,
+//     nombreImagen: nombreImagen,
+//     nombreImagen2: nombreImagen2,
+//     activo: true
+//   });
+//
+//   nuevoProducto.save(function(err){
+//     if (err) {
+//       return err;
+//     } else {
+//       res.redirect("/cargaproductos");
+//     }
+//   });
+// });
 
 app.get("/admin", adminController.admin_controller_get);
 app.post("/admin", adminController.admin_controller_post);
