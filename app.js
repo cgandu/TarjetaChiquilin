@@ -104,12 +104,17 @@ app.get("/comofunciona", function(req, res) {
   }
 });
 
-app.get("/canjea", function(req, res) {
-  if (req.isAuthenticated()) {
-    return res.render("canjea", {logmethod: "Logout"});
-  } else {
-    return res.render("canjea", {logmethod: "Login"});
-  }
+
+app.get("/canjea", function(req, res){
+    Producto.find({}, function(err, docs){
+      if (err) {
+        return err;
+      } else if (req.isAuthenticated()) {
+        return res.render("canjea", {docs: docs, logmethod: "Logout"});
+      } else{
+        return res.render("canjea", {docs: docs, logmethod: "Login"});
+      }
+    });
 });
 
 app.get("/beneficios", function(req, res) {
@@ -148,6 +153,9 @@ app.get("/logout", loginController.logout_controller_get);
 //middleware para redirigir si esAdmin = false
 
 app.all("*", checkAdmin);
+
+
+
 
 // app.get("/cargaproductos", function(req, res) {
 // res.render("cargaproductos");

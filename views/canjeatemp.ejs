@@ -1,0 +1,98 @@
+<%- include("partials/headerusrlogged"); -%>
+
+<div id="carouselExampleControls" style="min-height: 390px;" class="carousel slide" data-ride="carousel">
+
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <div class="flex-container justify-content-around" >
+        <div class="card m-3" style="width: 14rem; height: 18rem;">
+          <img src="/images/chicos/entradas.jpg" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h6 class="card-title" style="text-align: center;">Entradas (2) para teatro</h6>
+            <a href="#" class="btn btn-primary" style="width: 100%;">Ver canje</a>
+          </div>
+        </div>
+        <div class="card m-3" style="width: 14rem; height: 18rem;">
+        <img src="/images/chicos/vinos.png" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h6 class="card-title" style="text-align: center;">Vinos de regalo</h6>
+          <a href="#" class="btn btn-primary" style="width: 100%;">Ver canje</a>
+        </div>
+        </div>
+        <div class="card m-3" style="width: 14rem; height: 18rem;">
+        <img src="/images/chicos/showdetango.png" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h6 class="card-title" style="text-align: center;">Show de tango</h6>
+          <a href="#" class="btn btn-primary" style="width: 100%;">Ver canje</a>
+        </div>
+        </div>
+        <div class="card m-3" style="width: 14rem; height: 18rem;">
+        <img src="/images/chicos/postres.png" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h6 class="card-title" style="text-align: center;">Degustacion de postres</h6>
+          <a href="#" class="btn btn-primary" style="width: 100%;">Ver canje</a>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <div class="flex-container justify-content-around" >
+        <div class="card m-3" style="width: 14rem; height: 18rem;">
+        <img src="/images/chicos/descuentos.png" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h6 class="card-title" style="text-align: center;">Descuentos en Chiquilin</h6>
+          <a href="#" class="btn btn-primary" style="width: 100%;">Ver canje</a>
+        </div>
+        </div>
+        <div class="card m-3" style="width: 14rem; height: 18rem;">
+        <img src="/images/chicos/vinos.png" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h6 class="card-title" style="text-align: center;">Vinos de regalo</h6>
+          <a href="#" class="btn btn-primary" style="width: 100%;">Ver canje</a>
+        </div>
+        </div>
+        <div class="card m-3" style="width: 14rem; height: 18rem;">
+        <img src="/images/chicos/showdetango.png" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h6 class="card-title" style="text-align: center;">Show de tango</h6>
+          <a href="#" class="btn btn-primary" style="width: 100%;">Ver canje</a>
+        </div>
+        </div>
+        <div class="card m-3" style="width: 14rem; height: 18rem;">
+        <img src="/images/chicos/postres.png" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h6 class="card-title" style="text-align: center;">Degustacion de postres</h6>
+          <a href="#" class="btn btn-primary" style="width: 100%;">Ver canje</a>
+        </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+  <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
+
+
+
+  <div class="product-device product-device-2 shadow-sm d-none d-md-block"></div>
+</div>
+
+
+<script type="text/javascript">
+  $.getJSON("api/user_data", function(data) {
+    // Make sure the data contains the username as expected before using it
+    if (data.hasOwnProperty('username')) {
+        console.log('Usrename: ' + data.username);
+    }
+});
+</script>
+
+<%- include("partials/footerusr"); -%>
