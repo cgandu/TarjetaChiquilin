@@ -117,6 +117,25 @@ app.get("/canjea", function(req, res){
     });
 });
 
+
+app.get("/canjea/:idObjeto", function(req, res){
+
+  Producto.findById(req.params.idObjeto, function(err, doc){
+    if (err) {
+      console.log(err);
+      return err;
+    } else if (!doc) {
+      return "Doc was not found";
+    } else {
+        if (req.isAuthenticated()) {
+          return res.render("canjeaesp", {doc: doc, logmethod: "Logout"});
+        } else {
+          return res.render("canjeaesp", {doc: doc, logmethod: "Login"});
+        }
+    }
+  });
+});
+
 app.get("/beneficios", function(req, res) {
   if (req.isAuthenticated()) {
     return res.render("beneficios", {logmethod: "Logout"});
@@ -124,6 +143,7 @@ app.get("/beneficios", function(req, res) {
     return res.render("beneficios", {logmethod: "Login"});
   }
 });
+
 
 //middleware para redirigir si no esta isAuthenticated
 app.all("*", checkLogueado);
@@ -168,6 +188,7 @@ app.all("*", checkAdmin);
 //   const puntosProducto = req.body.puntosProducto;
 //   const nombreImagen = req.body.nombreImagen;
 //   const nombreImagen2 = req.body.nombreImagen2;
+//   const descripcionProducto = req.body.descripcionProducto;
 //
 //
 //   const nuevoProducto = new Producto ({
@@ -175,7 +196,8 @@ app.all("*", checkAdmin);
 //     puntosProducto: puntosProducto,
 //     nombreImagen: nombreImagen,
 //     nombreImagen2: nombreImagen2,
-//     activo: true
+//     activo: true,
+//     descripcionProducto: descripcionProducto
 //   });
 //
 //   nuevoProducto.save(function(err){

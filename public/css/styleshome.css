@@ -134,6 +134,13 @@
   width: 350px;
   height: 390px;
 }
+
+.cajamedio {
+  align-self: center;
+  width: 350px;
+  height: 100px;
+}
+
 .caja-form {
   width: 350px;
   height: 390px;

@@ -18,7 +18,12 @@ const productosSchema = new mongoose.Schema({
   },
   nombreImagen: String,
   nombreImagen2: String,
-  activo: Boolean
+  activo: Boolean,
+  descripcionProducto: {
+    type: String,
+    uppercase: false,
+    trim: true
+  }
 });
 
 productosSchema.set("timestamps", true);

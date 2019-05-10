@@ -17,11 +17,12 @@
   <div class="flex-container justify-content-around" style="background-color: #343a40; z-index: 1;" >
 <% docs.forEach(function(doc){ %>
 
-    <div class="card m-3" style="width: 14rem; height: 18rem;">
+    <div class="card m-3" style="width: 14rem; height: 20rem;">
       <img src="/images/productos/<%= doc.nombreImagen %>.jpg" class="card-img-top" alt="...">
       <div class="card-body">
         <h6 class="card-title" style="text-align: center; color: #000000;"> <%= doc.nombreProducto %></h6>
-        <a href="#" class="btn btn-primary" style="width: 100%;"><%= doc.puntosProducto %> pts</a>
+        <p style="text-align: center;"><%= doc.puntosProducto %> pts</p>
+        <a href="/canjea/<%= doc._id %>" class="btn btn-primary" style="width: 100%;">CANJEAR</a>
       </div>
     </div>
 
