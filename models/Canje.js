@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 
 const canjesSchema = new mongoose.Schema({
   productoCanjeado: String,
-  fechaCreado: String,
+  fechaCanje: String,
   fechaValidado: String,
   validado: Boolean,
   cliente: Number,

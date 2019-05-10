@@ -136,6 +136,8 @@ app.get("/canjea/:idObjeto", function(req, res){
   });
 });
 
+
+
 app.get("/beneficios", function(req, res) {
   if (req.isAuthenticated()) {
     return res.render("beneficios", {logmethod: "Logout"});
@@ -147,6 +149,24 @@ app.get("/beneficios", function(req, res) {
 
 //middleware para redirigir si no esta isAuthenticated
 app.all("*", checkLogueado);
+
+app.get("/canjea/confirma/:idObjeto", function(req, res){
+
+  Producto.findById(req.params.idObjeto, function(err, doc){
+    if (err) {
+      console.log(err);
+      return err;
+    } else if (!doc) {
+      return "Doc was not found";
+    } else {
+
+        const puntosProducto = doc.puntosProducto;
+        const puntosCliente = req.user.puntosCliente;
+
+        return res.render("confirmacanje", {doc: doc, cliente: req.user, logmethod: "Logout"});
+    }
+  });
+});
 
 app.get("/vinos", function(req, res){
   Usuario.findOne({_id: req.user._id}, function(err, doc){
