@@ -2,6 +2,7 @@
 
 
     <div class="flex-container justify-content-center">
+
       <div class="caja">
         <div class="card m-3" style="height: 22rem;">
           <div class="card-body">
@@ -10,21 +11,23 @@
             <h4 class="card-title" style="text-align: center; color: #000000;">Descripcion</h4>
             <p style="color: #000000;">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
             Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>
-            <h5 style="color: #000000;"><%= doc.puntosProducto %> pts</h5>
+
           </div>
         </div>
       </div>
+
+
 
       <div class="caja">
         <div class="card m-3" style="height: 22rem;">
           <img src="/images/productos/<%= doc.nombreImagen %>.jpg" class="card-img-top" alt="...">
           <div class="card-body">
-            <br>
 
+            <h5 style="color: #000000;"><%= doc.puntosProducto %> pts</h5>
           </div>
         </div>
       </div>
-
+<form class="" action="/canjea/confirma/<%= doc._id %>" method="post">
       <div class="caja">
         <div class="card m-3" style="height: 22rem;">
           <br>
@@ -53,8 +56,17 @@
                 <td style="text-align: right;"><p style="color: #B22222;">- <%= doc.puntosProducto %> pts</p></td>
               </tr>
             </table>
-            <br>
-            <a href="#" class="btn btn-primary" style="width: 100%;">CANJEAR</a>
+            <input type="hidden" name="idProducto" value="<%= doc._id %>">
+            <input type="hidden" name="nombreProducto" value="<%= doc.nombreProducto %>">
+            <input type="hidden" name="puntosProducto" value="<%= doc.puntosProducto %>">
+            <input type="hidden" name="numeroCliente" value="<%= cliente.numeroCliente %>">
+            <input type="hidden" name="nombreCliente" value="<%= cliente.nombreCliente %>">
+            <input type="hidden" name="puntosCliente" value="<%= cliente.puntosCliente %>">
+            <p style="color: #000000">¿Solicitar canje de <%= doc.nombreProducto %>?</p>
+            <a href="#" class="btn btn-primary"></a>
+            <button class="btn btn-primary" style="width: 100%;" type="submit">SÍ</button>
+
+            </form>
           </div>
         </div>
       </div>

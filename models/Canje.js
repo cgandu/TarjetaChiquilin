@@ -3,9 +3,13 @@
 const mongoose = require("mongoose");
 
 const canjesSchema = new mongoose.Schema({
+  idProductoCanjeado: String,
   productoCanjeado: String,
+  puntosCanjeados: Number,
   fechaCanje: String,
+  horaCanje: String,
   fechaValidado: String,
+  horaValidado: String,
   validado: Boolean,
   cliente: Number,
   codValidacion: String
