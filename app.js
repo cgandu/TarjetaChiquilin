@@ -52,6 +52,7 @@ const Admin = require(__dirname+"/models/Admin");
 const Movimiento = require(__dirname+"/models/Movimiento");
 const Usuario = require(__dirname+"/models/Usuario");
 const Producto = require(__dirname+"/models/Producto");
+const Canje = require(__dirname+"/models/Canje");
 
 passport.use(Usuario.createStrategy());
 passport.serializeUser(function(user, done) {
@@ -174,6 +175,7 @@ app.get("/canjegenerado", function(req, res){
 
 app.post("/canjea/confirma/:idObjeto", function(req, res){
 
+
   const substraction = req.body.puntosCliente - req.body.puntosProducto;
   const nuevaDate = new Date();
   const fechaCanje = fechaAString(nuevaDate);
@@ -201,19 +203,19 @@ app.post("/canjea/confirma/:idObjeto", function(req, res){
     sesion: req.user.username
   });
 
-  new Promise(function(resolve, reject){
+  var realizaCanje = new Promise(function(resolve, reject){
     //chequeo que producto existe
-    Producto.findById(req.params.idObjeto, function(err, producto){
-      if (err) {
-        return reject("Error al buscar producto: " + err);
-      } else if (!producto) {
-        return reject("Producto no existe");
-      } else {
-        return resolve(producto.puntosProducto);
-      }
-    });
+      Producto.findById(req.params.idObjeto, function(err, producto){
+        if (err) {
+          return reject("Error al buscar producto: " + err);
+        } else if (!producto) {
+          return reject("Producto no existe");
+        } else {
+          return resolve(producto.puntosProducto);
+        }
+      });
 
-  }).then(function(puntosProducto){
+    }).then(function(puntosProducto){
     return new Promise(function(resolve, reject){
       Usuario.findById(req.user._id, function(err, usuario){
         if (err) {
@@ -230,8 +232,6 @@ app.post("/canjea/confirma/:idObjeto", function(req, res){
 
   }).then(function(puntosProducto){
 
-
-
     Usuario.updateOne({_id: req.user._id}, {$inc: {puntosCliente: -puntosProducto}, $push: {accionesCliente: nuevoMovimiento}}, function(err){
       if (err) {
         return "Update error: " + err;
@@ -246,15 +246,17 @@ app.post("/canjea/confirma/:idObjeto", function(req, res){
           if (err) {
             return "Error al guardar nuevo canje: " + err;
           }
-          res.render("canjegenerado", {canje: canje, user: req.user});
+          res.render("canjegenerado", {canje: canje, user: req.user, logmethod: "Logout"});
 
         });
       }
     });
 
   }).catch(function(err){
+      console.log(err);
       return err;
   });
+
 
 });
 
