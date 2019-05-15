@@ -19,15 +19,14 @@ const asignarController = require(__dirname + "/controllers/asignarController");
 const asignartarjetaController = require(__dirname + "/controllers/asignartarjetaController");
 const usrhomeController = require(__dirname + "/controllers/usrhomeController");
 const googleController = require(__dirname + "/controllers/googleController");
+const canjesController = require(__dirname + "/controllers/canjesController");
+const varios = require(__dirname + "/controllers/varios");
 const _ = require("lodash");
 const funciones = require(__dirname+"/controllers/funciones");
 const fechaAString = funciones.fechaAString;
 const horaAString = funciones.horaAString;
 const notificacionCanje = funciones.notificacionCanje;
 const crypto = require("crypto");
-
-
-
 
 
 
@@ -80,6 +79,9 @@ function checkAdmin(req, res, next) {
   res.redirect("/usrhome");
 }
 
+
+
+
 app.get("/", function(req, res) {
   if (req.isAuthenticated()) {
     res.render("home", {logmethod: "Logout"});
@@ -97,183 +99,47 @@ app.post("/login", loginController.login_controller_post);
 app.get("/active/:linkHash", activaController.activa_controller_get);
 app.get("/auth/google", googleController.google_controller_verificar);
 app.get("/auth/google/usrhome", googleController.google_controller_verificado);
-
-app.get("/comofunciona", function(req, res) {
-  if (req.isAuthenticated()) {
-    return res.render("comofunciona", {logmethod: "Logout"});
-  } else {
-    return res.render("comofunciona", {logmethod: "Login"});
-  }
-});
-
-
-app.get("/canjea", function(req, res){
-    Producto.find({}, function(err, docs){
-      if (err) {
-        return err;
-      } else if (req.isAuthenticated()) {
-        return res.render("canjea", {docs: docs, logmethod: "Logout"});
-      } else{
-        return res.render("canjea", {docs: docs, logmethod: "Login"});
-      }
-    });
-});
-
-
-app.get("/canjea/:idObjeto", function(req, res){
-
-  Producto.findById(req.params.idObjeto, function(err, doc){
-    if (err) {
-      console.log(err);
-      return err;
-    } else if (!doc) {
-      return "Doc was not found";
-    } else {
-        if (req.isAuthenticated()) {
-          return res.render("canjeaesp", {doc: doc, logmethod: "Logout"});
-        } else {
-          return res.render("canjeaesp", {doc: doc, logmethod: "Login"});
-        }
-    }
-  });
-});
-
-
-
-app.get("/beneficios", function(req, res) {
-  if (req.isAuthenticated()) {
-    return res.render("beneficios", {logmethod: "Logout"});
-  } else {
-    return res.render("beneficios", {logmethod: "Login"});
-  }
-});
+app.get("/comofunciona", varios.comofunciona_controller_get);
+app.get("/canjea", varios.canjea_controller_get);
+app.get("/canjea/:idObjeto", varios.canjeaesp_controller_get);
+app.get("/beneficios", varios.beneficios_controller_get);
 
 
 //middleware para redirigir si no esta isAuthenticated
 app.all("*", checkLogueado);
 
-app.get("/canjea/confirma/:idObjeto", function(req, res){
-
-  Producto.findById(req.params.idObjeto, function(err, doc){
-    if (err) {
-      console.log(err);
-      return err;
-    } else if (!doc) {
-      return "Doc was not found";
-    } else {
-
-        const puntosProducto = doc.puntosProducto;
-        const puntosCliente = req.user.puntosCliente;
-
-        return res.render("confirmacanje", {doc: doc, cliente: req.user, logmethod: "Logout"});
-    }
-  });
-});
-
-app.get("/canjegenerado", function(req, res){
-  res.render("canjegenerado");
-});
-
-app.post("/canjea/confirma/:idObjeto", function(req, res){
-
-
-  const substraction = req.body.puntosCliente - req.body.puntosProducto;
-  const nuevaDate = new Date();
-  const fechaCanje = fechaAString(nuevaDate);
-  const horaCanje = horaAString(nuevaDate);
-  const codValidacion = crypto.randomBytes(3).toString('hex');
-
-  const nuevoCanje = new Canje ({
-  idProductoCanjeado: req.body.idProducto,
-  productoCanjeado: req.body.nombreProducto,
-  puntosCanjeados: req.body.puntosProducto,
-  fechaCanje: fechaCanje,
-  horaCanje: horaCanje,
-  validado: false,
-  cliente: req.body.numeroCliente,
-  codValidacion: codValidacion
-  });
-
-  const nuevoMovimiento = new Movimiento ({
-    accion: "-" + req.body.puntosProducto + " // " + req.body.nombreProducto,
-    fecha: fechaCanje,
-    hora: horaCanje,
-    numeroCliente: req.body.numeroCliente,
-    nombreCliente: req.body.nombreCliente,
-    comprobante: "GENERA CANJE",
-    sesion: req.user.username
-  });
-
-  var realizaCanje = new Promise(function(resolve, reject){
-    //chequeo que producto existe
-      Producto.findById(req.params.idObjeto, function(err, producto){
-        if (err) {
-          return reject("Error al buscar producto: " + err);
-        } else if (!producto) {
-          return reject("Producto no existe");
-        } else {
-          return resolve(producto.puntosProducto);
-        }
-      });
-
-    }).then(function(puntosProducto){
-      //Chequeo que usuario existe y que tiene puntos suficientes
-    return new Promise(function(resolve, reject){
-      Usuario.findById(req.user._id, function(err, usuario){
-        if (err) {
-          return reject("Error al buscar Usuario: " + err);
-        } else if (!usuario) {
-          return reject("Usuario no existe");
-        } else if (usuario.puntosCliente < puntosProducto) {
-          return reject("Puntos insuficientes para solicitar canje");
-        } else {
-          return resolve(puntosProducto);
-        }
-      });
-    });
-
-  }).then(function(puntosProducto){
-    //Realizo canje: descuento puntos, genero canje nuevo y guardo movimientos
-    Usuario.updateOne({_id: req.user._id}, {$inc: {puntosCliente: -puntosProducto}, $push: {accionesCliente: nuevoMovimiento}}, function(err){
-      if (err) {
-        return "Update error: " + err;
-      } else {
-        nuevoMovimiento.save(function(err){
-          if (err) {
-            return "Error al guardar movimiento: " + err;
-          }
-        });
-
-        nuevoCanje.save(function(err, canje){
-          if (err) {
-            return "Error al guardar nuevo canje: " + err;
-          }
-          notificacionCanje(canje, req.user);
-          res.render("canjegenerado", {canje: canje, user: req.user, logmethod: "Logout"});
-
-        });
-      }
-    });
-
-  }).catch(function(err){
-      console.log(err);
-      return err;
-  });
-
-
-});
-
-
+app.get("/canjea/confirma/:idObjeto", canjesController.canje_confirma_get);
+app.post("/canjea/confirma/:idObjeto", canjesController.canje_confirma_post);
 app.get("/usrhome", usrhomeController.usrhome_controller_get);
-
 app.get("/logout", loginController.logout_controller_get);
+
 
 //middleware para redirigir si esAdmin = false
 
 app.all("*", checkAdmin);
 
 
+app.get("/admin", adminController.admin_controller_get);
+app.post("/admin", adminController.admin_controller_post);
+app.post("/admin/clientes/:clienteAddress", clienteController.cliente_controller_post);
+app.get("/descargas", descargasController.descargas_controller_get);
+app.get("/asignar", asignarController.asignar_controller_get);
+app.post("/asignar", asignarController.asignar_controller_post);
+app.post("/asignartarjeta", asignartarjetaController.asignartarjeta_controller_post);
 
+let port = process.env.PORT;
+if (port == null || port == "") {
+  port = 3000;
+}
+
+app.listen(port, function(req, res) {
+  console.log("Servidor iniciado");
+});
+
+
+
+
+///////////////////// CARGA PRODUCTOS /////////////////
 
 // app.get("/cargaproductos", function(req, res) {
 // res.render("cargaproductos");
@@ -306,20 +172,3 @@ app.all("*", checkAdmin);
 //     }
 //   });
 // });
-
-app.get("/admin", adminController.admin_controller_get);
-app.post("/admin", adminController.admin_controller_post);
-app.post("/admin/clientes/:clienteAddress", clienteController.cliente_controller_post);
-app.get("/descargas", descargasController.descargas_controller_get);
-app.get("/asignar", asignarController.asignar_controller_get);
-app.post("/asignar", asignarController.asignar_controller_post);
-app.post("/asignartarjeta", asignartarjetaController.asignartarjeta_controller_post);
-
-let port = process.env.PORT;
-if (port == null || port == "") {
-  port = 3000;
-}
-
-app.listen(port, function(req, res) {
-  console.log("Servidor iniciado");
-});
