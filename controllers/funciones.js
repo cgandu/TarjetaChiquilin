@@ -100,3 +100,42 @@ api.transactional.sendSmartEmail(details, function (err, res) {
 
 
 };
+
+
+exports.notificacionCanje = function notificacionCanje(infoCanje, usuario){
+
+
+// npm install createsend-node
+
+// Authenticate with API Key
+var createsend = require('createsend-node');
+var auth = { apiKey: process.env.CAMPAIGN_MONITOR_APIKEY };
+var api = new createsend(auth);
+
+// Create a details object
+var details = {};
+
+// Add the unique identifier for the smart email
+details.smartEmailID = 'a0dfbc40-f282-4bae-978f-10af023f6cbe';
+
+// Add the 'To' email address
+details.to = usuario.email;
+
+// Add mail merge variables
+details.data = {
+  "nombreCliente": usuario.nombreCliente,
+	"x-apple-data-detectors": "x-apple-data-detectorsTestValue",
+	"nombreProducto": infoCanje.productoCanjeado,
+	"canjeID": infoCanje._id,
+	"codValidacion": infoCanje.codValidacion
+};
+
+// Send the smart email(and provide a callback function that takes an error and a response parameter)
+api.transactional.sendSmartEmail(details, function (err, res) {
+  if (err) {
+    console.log(err);
+  } else {
+    console.log("Notificacion enviada exitosamente");
+  }
+});
+};

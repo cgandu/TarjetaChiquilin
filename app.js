@@ -23,6 +23,7 @@ const _ = require("lodash");
 const funciones = require(__dirname+"/controllers/funciones");
 const fechaAString = funciones.fechaAString;
 const horaAString = funciones.horaAString;
+const notificacionCanje = funciones.notificacionCanje;
 const crypto = require("crypto");
 
 
@@ -247,6 +248,7 @@ app.post("/canjea/confirma/:idObjeto", function(req, res){
           if (err) {
             return "Error al guardar nuevo canje: " + err;
           }
+          notificacionCanje(canje, req.user);
           res.render("canjegenerado", {canje: canje, user: req.user, logmethod: "Logout"});
 
         });
