@@ -216,6 +216,7 @@ app.post("/canjea/confirma/:idObjeto", function(req, res){
       });
 
     }).then(function(puntosProducto){
+      //Chequeo que usuario existe y que tiene puntos suficientes
     return new Promise(function(resolve, reject){
       Usuario.findById(req.user._id, function(err, usuario){
         if (err) {
@@ -231,7 +232,7 @@ app.post("/canjea/confirma/:idObjeto", function(req, res){
     });
 
   }).then(function(puntosProducto){
-
+    //Realizo canje: descuento puntos, genero canje nuevo y guardo movimientos
     Usuario.updateOne({_id: req.user._id}, {$inc: {puntosCliente: -puntosProducto}, $push: {accionesCliente: nuevoMovimiento}}, function(err){
       if (err) {
         return "Update error: " + err;
