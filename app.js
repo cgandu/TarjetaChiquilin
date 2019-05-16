@@ -84,7 +84,7 @@ function checkAdmin(req, res, next) {
 
 app.get("/", function(req, res) {
   if (req.isAuthenticated()) {
-    res.render("home", {logmethod: "Logout"});
+    res.redirect("/usrhome");
   } else {
     res.render("home", {logmethod: "Login"});
   }
@@ -115,7 +115,6 @@ app.get("/logout", loginController.logout_controller_get);
 
 
 //middleware para redirigir si esAdmin = false
-
 app.all("*", checkAdmin);
 
 
