@@ -1,7 +1,12 @@
 <%- include("partials/header"); -%>
 
 <a href="/admin"><i class="fas fa-home fa-3x homeicon"></i></a>
-<a href="/canjes"><i class="fas fa-cash-register fa-3x cashregistericon"></i></a>
+<form name="formucanje" action="/canjes" method="post">
+  <input type="hidden" name="numeroCliente" value="<%= locals.numeroCliente %>">
+  <input type="hidden" name="nombreCliente" value="<%= locals.nombreCliente %>">
+  <a href="#" onclick="formucanje.submit()"><i class="fas fa-handshake fa-3x cashregistericon"></i></a>
+</form>
+
 
   <div class="jumbotron">
     <h5 class="display-6">Cliente: <%= locals.nombreCliente %></h5>

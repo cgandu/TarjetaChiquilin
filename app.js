@@ -19,7 +19,7 @@ const asignarController = require(__dirname + "/controllers/asignarController");
 const asignartarjetaController = require(__dirname + "/controllers/asignartarjetaController");
 const usrhomeController = require(__dirname + "/controllers/usrhomeController");
 const googleController = require(__dirname + "/controllers/googleController");
-const canjesController = require(__dirname + "/controllers/canjesController");
+const canjeaController = require(__dirname + "/controllers/canjeaController");
 const varios = require(__dirname + "/controllers/varios");
 const _ = require("lodash");
 const funciones = require(__dirname+"/controllers/funciones");
@@ -108,8 +108,8 @@ app.get("/beneficios", varios.beneficios_controller_get);
 //middleware para redirigir si no esta isAuthenticated
 app.all("*", checkLogueado);
 
-app.get("/canjea/confirma/:idObjeto", canjesController.canje_confirma_get);
-app.post("/canjea/confirma/:idObjeto", canjesController.canje_confirma_post);
+app.get("/canjea/confirma/:idObjeto", canjeaController.canje_confirma_get);
+app.post("/canjea/confirma/:idObjeto", canjeaController.canje_confirma_post);
 app.get("/usrhome", usrhomeController.usrhome_controller_get);
 app.get("/logout", loginController.logout_controller_get);
 
@@ -125,6 +125,33 @@ app.get("/descargas", descargasController.descargas_controller_get);
 app.get("/asignar", asignarController.asignar_controller_get);
 app.post("/asignar", asignarController.asignar_controller_post);
 app.post("/asignartarjeta", asignartarjetaController.asignartarjeta_controller_post);
+
+app.post("/canjes", function(req, res){
+
+  const nombreCliente = req.body.nombreCliente;
+  const numeroCliente = req.body.numeroCliente;
+
+  Canje.find({cliente: numeroCliente, validado: false}, function(err, docs){
+
+    if (err) {
+      return err;
+    } else {
+      res.render("canjeshabilitados", {nombreCliente: nombreCliente, docs: docs});
+    }
+
+  });
+
+});
+
+app.post("/validar", function(req, res){
+
+  const codValidacion = req.body.codValidacion;
+  console.log(codValidacion);
+
+
+});
+
+
 
 let port = process.env.PORT;
 if (port == null || port == "") {
