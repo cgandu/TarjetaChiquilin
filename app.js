@@ -23,6 +23,7 @@ function start () {
   const mongoose = require("mongoose");
   const $ = require("jquery");
   const session = require("express-session");
+  const MongoStore = require('connect-mongo')(session);
   const passport = require("passport");
   const findOrCreate = require("mongoose-findorcreate");
   const loginController = require(__dirname + "/controllers/loginController");
@@ -56,6 +57,7 @@ function start () {
     secret: "Es solo para mantener sesion abierta.",
     resave: false,
     saveUninitialized: true,
+    store: new MongoStore({ mongooseConnection: mongoose.connection })
   }));
 
   app.use(passport.initialize());
