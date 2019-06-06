@@ -64,8 +64,8 @@ function start () {
   app.use(passport.initialize());
   app.use(passport.session());
 
-
-  mongoose.connect(process.env.MONGO_ATLAS_SRV, {useNewUrlParser: true});
+//mongodb://localhost:27017/chiquilinDB
+  mongoose.connect("mongodb://localhost:27017/chiquilinDB", {useNewUrlParser: true});
 
   const Admin = require(__dirname+"/models/Admin");
   const Movimiento = require(__dirname+"/models/Movimiento");
@@ -182,6 +182,8 @@ app.post("/reset/:token", function(req, res) {
     }
   });
 });
+
+
 
   app.get("/registro", registroController.registro_controller_get);
   app.post("/registro", registroController.registro_controller_post);
