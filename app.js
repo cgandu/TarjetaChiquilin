@@ -1,7 +1,7 @@
 //jshint esversion:6
 require('dotenv').config();
 const throng = require("throng");
-const WORKERS = process.env.WEB_CONCURRENCY || 1;
+const WORKERS = process.env.WEB_CONCURRENCY || 1; // para escalabilidad de procesos
 
 
 throng({
@@ -43,6 +43,7 @@ function start () {
   const fechaAString = funciones.fechaAString;
   const horaAString = funciones.horaAString;
   const notificacionCanje = funciones.notificacionCanje;
+  const notificacionReset = funciones.notificacionReset;
   const crypto = require("crypto");
 
 
@@ -109,6 +110,78 @@ function start () {
 
   });
 
+
+  app.get("/olvido", function(req, res){
+
+    res.render("olvido");
+  });
+
+  app.post("/olvido", function(req, res){
+
+    var envioToken = new Promise(function(resolve, reject){
+      Usuario.findOne({email: req.body.emailcliente, googleId: {$exists: false}}, function(err, doc){
+        if (err) {
+          return reject("Error al ingresar email: " + err);
+        } else if (!doc) {
+          return reject("Direccion de email invalida o inexistente");
+        } else {
+          return resolve(doc);
+        }
+      });
+    }).then(function(usuario) {
+      console.log(usuario);
+        return new Promise(function(resolve, reject){
+          const token = crypto.randomBytes(20).toString('hex');
+          const expira = Date.now() + 3600000;
+          Usuario.findOneAndUpdate({_id: usuario._id}, {resetPasswordToken: token, resetPasswordExpira: expira}, {new: true}, function(err, user){
+            if (err) {
+              return reject("Error al registrar Token: " + err);
+            } else {
+              console.log("se updateto correctamente");
+              return resolve(user);
+            }
+          });
+
+        });
+    }).then(function(u) {
+      notificacionReset(u);
+    }).catch(function(err){
+      console.log(err);
+      return err;
+    });
+  });
+
+  app.get("/reset/:token", function(req, res) {
+    Usuario.findOne({resetPasswordToken: req.params.token, resetPasswordExpira: {$gt: Date.now()}}, function(err, doc){
+      if (err) {
+        console.log(err);
+        return err;
+      } else if(!doc) {
+        return "Su solicitud expiró o es inválida. Por favor, solicítela nuevamente.";
+      } else {
+        res.render("reset", {token: req.params.token});
+      }
+    });
+  });
+
+app.post("/reset/:token", function(req, res) {
+
+  const nuevopass = req.body.np1;
+  Usuario.findOne({resetPasswordToken: req.params.token, resetPasswordExpira: {$gt: Date.now()}}, function(err, u){
+    if (err) {
+      console.log(err);
+      return err;
+    } else if (!u) {
+      return "Su solicitud expiró o es inválida. Por favor, solicítela nuevamente.";
+    } else {
+      // Chequear si el plugin de password local mongoose (que se requirio en el Usuario.js alcanza con que este exportado por el Model solamente)
+      u.setPassword(nuevopass, function(){
+        u.save();
+        console.log("Password cambiado correctamente");
+      });
+    }
+  });
+});
 
   app.get("/registro", registroController.registro_controller_get);
   app.post("/registro", registroController.registro_controller_post);

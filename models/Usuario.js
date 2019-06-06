@@ -63,7 +63,9 @@ const usuariosSchema = new mongoose.Schema({
   activadoHash: String,
   asignado: Boolean,
   fechaCreado: String,
-  googleId: String
+  googleId: String,
+  resetPasswordToken: String,
+  resetPasswordExpira: Date
 });
 
 

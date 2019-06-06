@@ -139,3 +139,37 @@ api.transactional.sendSmartEmail(details, function (err, res) {
   }
 });
 };
+exports.notificacionReset = function notificacionReset(usuario){
+// npm install createsend-node
+
+// Authenticate with API Key
+var createsend = require('createsend-node');
+var auth = { apiKey: process.env.CAMPAIGN_MONITOR_APIKEY };
+var api = new createsend(auth);
+
+// Create a details object
+var details = {};
+
+// Add the unique identifier for the smart email
+details.smartEmailID = '30a14079-de53-4b3a-b5e1-75b06940bdb0';
+
+// Add the 'To' email address
+details.to = usuario.email;
+
+// Add mail merge variables
+details.data = {
+  "x-apple-data-detectors": "x-apple-data-detectorsTestValue",
+	"linkReset": "www.tarjetachiquilin.com/reset/"+ usuario.resetPasswordToken,
+	"nombreCliente": usuario.username
+};
+
+// Send the smart email(and provide a callback function that takes an error and a response parameter)
+api.transactional.sendSmartEmail(details, function (err, res) {
+    if (err) {
+        console.log(err);
+    } else {
+        console.log("Notificacion Reset enviada exitosamente");
+    }
+});
+
+};

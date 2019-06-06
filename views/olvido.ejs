@@ -1,0 +1,21 @@
+<%- include("partials/headerusrlogged"); -%>
+
+  <div class="flex-container justify-content-around">
+
+    <div class="caja">
+      <br>
+      <h1 class="display-4 titulo">¿Olvidaste tu contraseña?</h1>
+      <p class="">Ingresá tu dirección de correo electrónico, hacé click en "Enviar" y seguí las instrucciones que te mandamos por email</p>
+      <form class="rounded" style="padding: 20px;" action="/olvido" method="post">
+        <input type="email" style="margin-bottom: 10px;" name="emailcliente" class="form-control" required autofocus placeholder="Tu dirección de email">
+        <button class="btn btn-outline-light btn-lg btn-block" id="botonregistro" type="submit">Enviar</button>
+      </form>
+
+
+    </div>
+
+  </div>
+</div>
+
+
+<%- include("partials/footerusr"); -%>
