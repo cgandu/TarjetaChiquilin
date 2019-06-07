@@ -167,8 +167,10 @@ details.data = {
 api.transactional.sendSmartEmail(details, function (err, res) {
     if (err) {
         console.log(err);
+        return err;
     } else {
         console.log("Notificacion Reset enviada exitosamente");
+        return res.render("confirma", {horaConfirmada: "Solicitud procesada correctamente"});
     }
 });
 

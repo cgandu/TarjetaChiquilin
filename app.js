@@ -137,7 +137,7 @@ function start () {
             if (err) {
               return reject("Error al registrar Token: " + err);
             } else {
-              console.log("se updateto correctamente");
+              console.log("se updateo correctamente");
               return resolve(user);
             }
           });
@@ -145,9 +145,10 @@ function start () {
         });
     }).then(function(u) {
       notificacionReset(u);
+
     }).catch(function(err){
       console.log(err);
-      return err;
+      return "Error de solicitud: " + err;
     });
   });
 
@@ -175,9 +176,14 @@ app.post("/reset/:token", function(req, res) {
       return "Su solicitud expiró o es inválida. Por favor, solicítela nuevamente.";
     } else {
       // Chequear si el plugin de password local mongoose (que se requirio en el Usuario.js alcanza con que este exportado por el Model solamente)
-      u.setPassword(nuevopass, function(){
-        u.save();
-        console.log("Password cambiado correctamente");
+      u.setPassword(nuevopass, function(err, user){
+        if (err) {
+          return "Error al intentar cambiar contraseña: " + err;
+        } else {
+          console.log("Password cambiado correctamente");
+          return res.render("confirma", {horaConfirmada: "Contraseña cambiada exitosamente"});
+        }
+
       });
     }
   });
