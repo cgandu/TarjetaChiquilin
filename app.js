@@ -65,7 +65,7 @@ function start () {
   app.use(passport.session());
 
 //mongodb://localhost:27017/chiquilinDB
-  mongoose.connect("mongodb://localhost:27017/chiquilinDB", {useNewUrlParser: true});
+  mongoose.connect(process.env.MONGO_ATLAS_SRV, {useNewUrlParser: true});
 
   const Admin = require(__dirname+"/models/Admin");
   const Movimiento = require(__dirname+"/models/Movimiento");
