@@ -125,7 +125,7 @@ function start () {
         } else if (!doc) {
           return reject("Direccion de email invalida o inexistente");
         } else {
-          return resolve(doc);
+          resolve(doc);
         }
       });
     }).then(function(usuario) {
@@ -138,7 +138,7 @@ function start () {
               return reject("Error al registrar Token: " + err);
             } else {
               console.log("se updateo correctamente");
-              return resolve(user);
+              resolve(user);
             }
           });
 
@@ -149,7 +149,7 @@ function start () {
       res.render("confirma", {horaConfirmada: "Solicitud procesada correctamente"});
     }).catch(function(err){
       console.log(err);
-      return "Error de solicitud: " + err;
+      return res.send("Error de solicitud: " + err);
     });
   });
 
@@ -157,9 +157,10 @@ function start () {
     Usuario.findOne({resetPasswordToken: req.params.token, resetPasswordExpira: {$gt: Date.now()}}, function(err, doc){
       if (err) {
         console.log(err);
-        return err;
+        return res.send(err);
       } else if(!doc) {
-        return "Su solicitud expiró o es inválida. Por favor, solicítela nuevamente.";
+        console.log("Su solicitud expiró o es inválida. Por favor, solicítela nuevamente.");
+        return res.send("Su solicitud expiró o es inválida. Por favor, solicítela nuevamente.");
       } else {
         res.render("reset", {token: req.params.token});
       }
@@ -168,35 +169,48 @@ function start () {
 
 app.post("/reset/:token", function(req, res) {
 
+
   const nuevopass = req.body.np1;
 
-  var reseteoPass = new Promise (function(reject, resolve) {
+  var reseteoPass = new Promise (function(resolve, reject) {
     Usuario.findOne({resetPasswordToken: req.params.token, resetPasswordExpira: {$gt: Date.now()}}, function(err, usuario){
       if (err) {
         return reject("Solicitud expiró o es inválida: " + err);
       } else if (!usuario) {
         return reject("Solicitud expiró o es inválida: " + err);
       } else {
+        console.log("usuario con token encontrado");
         return resolve(usuario);
       }
     });
   }).then(function(usuario) {
-    return new Promise(function(reject, resolve){
-      usuario.setPassword(nuevopass, function(err, usuario){
+    console.log("Me loguea en primer then");
+
+    return new Promise(function(resolve, reject){
+      usuario.setPassword(nuevopass, function(err, u){
         if (err) {
+          console.log("error al setpassword");
           return reject("Error al registrar nueva contraseña: " + err);
         } else {
-          console.log("Password cambiado correctamente");
-          return resolve(usuario);
+          u.save(function(err){
+            if (err) {
+              console.log(err);
+              return reject(err);
+            } else {
+              console.log("Password cambiado correctamente");
+              return resolve();
+            }
+          });
+
         }
       });
     });
 
   }).then(function(){
-    return res.render("confirma", {horaConfirmada: "Contraseña cambiada exitosamente"});
+    res.render("confirma", {horaConfirmada: "Contraseña cambiada exitosamente"});
   }).catch(function(err){
     console.log(err);
-    return err;
+    return res.send(err);
   });
 
 });
