@@ -174,7 +174,7 @@ app.post("/reset/:token", function(req, res) {
     Usuario.findOne({resetPasswordToken: req.params.token, resetPasswordExpira: {$gt: Date.now()}}, function(err, usuario){
       if (err) {
         return reject("Solicitud expiró o es inválida: " + err);
-      } else if (!doc) {
+      } else if (!usuario) {
         return reject("Solicitud expiró o es inválida: " + err);
       } else {
         return resolve(usuario);
