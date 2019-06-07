@@ -145,7 +145,8 @@ function start () {
         });
     }).then(function(u) {
       notificacionReset(u);
-
+    }).then(function(){
+      res.render("confirma", {horaConfirmada: "Solicitud procesada correctamente"});
     }).catch(function(err){
       console.log(err);
       return "Error de solicitud: " + err;
