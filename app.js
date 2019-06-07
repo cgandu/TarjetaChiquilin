@@ -169,25 +169,36 @@ function start () {
 app.post("/reset/:token", function(req, res) {
 
   const nuevopass = req.body.np1;
-  Usuario.findOne({resetPasswordToken: req.params.token, resetPasswordExpira: {$gt: Date.now()}}, function(err, u){
-    if (err) {
-      console.log(err);
-      return err;
-    } else if (!u) {
-      return "Su solicitud expiró o es inválida. Por favor, solicítela nuevamente.";
-    } else {
-      // Chequear si el plugin de password local mongoose (que se requirio en el Usuario.js alcanza con que este exportado por el Model solamente)
-      u.setPassword(nuevopass, function(err, user){
+
+  var reseteoPass = new Promise (function(reject, resolve) {
+    Usuario.findOne({resetPasswordToken: req.params.token, resetPasswordExpira: {$gt: Date.now()}}, function(err, usuario){
+      if (err) {
+        return reject("Solicitud expiró o es inválida: " + err);
+      } else if (!doc) {
+        return reject("Solicitud expiró o es inválida: " + err);
+      } else {
+        return resolve(usuario);
+      }
+    });
+  }).then(function(usuario) {
+    return new Promise(function(reject, resolve){
+      usuario.setPassword(nuevopass, function(err, usuario){
         if (err) {
-          return "Error al intentar cambiar contraseña: " + err;
+          return reject("Error al registrar nueva contraseña: " + err);
         } else {
           console.log("Password cambiado correctamente");
-          return res.render("confirma", {horaConfirmada: "Contraseña cambiada exitosamente"});
+          return resolve(usuario);
         }
-
       });
-    }
+    });
+
+  }).then(function(){
+    return res.render("confirma", {horaConfirmada: "Contraseña cambiada exitosamente"});
+  }).catch(function(err){
+    console.log(err);
+    return err;
   });
+
 });
 
 
