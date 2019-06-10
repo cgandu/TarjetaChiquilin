@@ -37,6 +37,7 @@ function start () {
   const usrhomeController = require(__dirname + "/controllers/usrhomeController");
   const googleController = require(__dirname + "/controllers/googleController");
   const canjeaController = require(__dirname + "/controllers/canjeaController");
+  const resetpassController = require(__dirname + "/controllers/resetpassController");
   const varios = require(__dirname + "/controllers/varios");
   const _ = require("lodash");
   const funciones = require(__dirname+"/controllers/funciones");
@@ -84,10 +85,6 @@ function start () {
   });
 
 
-
-
-
-
   function checkLogueado(req, res, next) {
     if (req.isAuthenticated()) { return next(null); }
     res.redirect("/login");
@@ -98,125 +95,19 @@ function start () {
     res.redirect("/usrhome");
   }
 
-
-
-
   app.get("/", function(req, res) {
     if (req.isAuthenticated()) {
       res.redirect("/usrhome");
     } else {
       res.render("home", {logmethod: "Login"});
     }
-
   });
 
 
-  app.get("/olvido", function(req, res){
-
-    res.render("olvido");
-  });
-
-  app.post("/olvido", function(req, res){
-
-    var envioToken = new Promise(function(resolve, reject){
-      Usuario.findOne({email: req.body.emailcliente, googleId: {$exists: false}}, function(err, doc){
-        if (err) {
-          return reject("Error al ingresar email: " + err);
-        } else if (!doc) {
-          return reject("Direccion de email invalida o inexistente");
-        } else {
-          resolve(doc);
-        }
-      });
-    }).then(function(usuario) {
-      console.log(usuario);
-        return new Promise(function(resolve, reject){
-          const token = crypto.randomBytes(20).toString('hex');
-          const expira = Date.now() + 3600000;
-          Usuario.findOneAndUpdate({_id: usuario._id}, {resetPasswordToken: token, resetPasswordExpira: expira}, {new: true}, function(err, user){
-            if (err) {
-              return reject("Error al registrar Token: " + err);
-            } else {
-              console.log("se updateo correctamente");
-              resolve(user);
-            }
-          });
-
-        });
-    }).then(function(u) {
-      notificacionReset(u);
-    }).then(function(){
-      res.render("confirma", {horaConfirmada: "Solicitud procesada correctamente"});
-    }).catch(function(err){
-      console.log(err);
-      return res.send("Error de solicitud: " + err);
-    });
-  });
-
-  app.get("/reset/:token", function(req, res) {
-    Usuario.findOne({resetPasswordToken: req.params.token, resetPasswordExpira: {$gt: Date.now()}}, function(err, doc){
-      if (err) {
-        console.log(err);
-        return res.send(err);
-      } else if(!doc) {
-        console.log("Su solicitud expiró o es inválida. Por favor, solicítela nuevamente.");
-        return res.send("Su solicitud expiró o es inválida. Por favor, solicítela nuevamente.");
-      } else {
-        res.render("reset", {token: req.params.token});
-      }
-    });
-  });
-
-app.post("/reset/:token", function(req, res) {
-
-
-  const nuevopass = req.body.np1;
-
-  var reseteoPass = new Promise (function(resolve, reject) {
-    Usuario.findOne({resetPasswordToken: req.params.token, resetPasswordExpira: {$gt: Date.now()}}, function(err, usuario){
-      if (err) {
-        return reject("Solicitud expiró o es inválida: " + err);
-      } else if (!usuario) {
-        return reject("Solicitud expiró o es inválida: " + err);
-      } else {
-        console.log("usuario con token encontrado");
-        return resolve(usuario);
-      }
-    });
-  }).then(function(usuario) {
-    console.log("Me loguea en primer then");
-
-    return new Promise(function(resolve, reject){
-      usuario.setPassword(nuevopass, function(err, u){
-        if (err) {
-          console.log("error al setpassword");
-          return reject("Error al registrar nueva contraseña: " + err);
-        } else {
-          u.save(function(err){
-            if (err) {
-              console.log(err);
-              return reject(err);
-            } else {
-              console.log("Password cambiado correctamente");
-              return resolve();
-            }
-          });
-
-        }
-      });
-    });
-
-  }).then(function(){
-    res.render("confirma", {horaConfirmada: "Contraseña cambiada exitosamente"});
-  }).catch(function(err){
-    console.log(err);
-    return res.send(err);
-  });
-
-});
-
-
-
+  app.get("/olvido", resetpassController.olvido_get);
+  app.post("/olvido", resetpassController.olvido_post );
+  app.get("/reset/:token", resetpassController.reset_token_get);
+  app.post("/reset/:token", resetpassController.reset_token_post);
   app.get("/registro", registroController.registro_controller_get);
   app.post("/registro", registroController.registro_controller_post);
   app.get("/login", loginController.login_controller_get);
@@ -229,7 +120,6 @@ app.post("/reset/:token", function(req, res) {
   app.get("/canjea/:idObjeto", varios.canjeaesp_controller_get);
   app.get("/beneficios", varios.beneficios_controller_get);
 
-
   //middleware para redirigir si no esta isAuthenticated
   app.all("*", checkLogueado);
 
@@ -238,10 +128,8 @@ app.post("/reset/:token", function(req, res) {
   app.get("/usrhome", usrhomeController.usrhome_controller_get);
   app.get("/logout", loginController.logout_controller_get);
 
-
   //middleware para redirigir si esAdmin = false
   app.all("*", checkAdmin);
-
 
   app.get("/admin", adminController.admin_controller_get);
   app.post("/admin", adminController.admin_controller_post);
@@ -252,31 +140,21 @@ app.post("/reset/:token", function(req, res) {
   app.post("/asignartarjeta", asignartarjetaController.asignartarjeta_controller_post);
 
   app.post("/canjes", function(req, res){
-
     const nombreCliente = req.body.nombreCliente;
     const numeroCliente = req.body.numeroCliente;
-
     Canje.find({cliente: numeroCliente, validado: false}, function(err, docs){
-
       if (err) {
         return err;
       } else {
         res.render("canjeshabilitados", {nombreCliente: nombreCliente, docs: docs});
       }
-
     });
-
   });
 
   app.post("/validar", function(req, res){
-
     const codValidacion = req.body.codValidacion;
     console.log(codValidacion);
-
-
   });
-
-
 
   let port = process.env.PORT;
   if (port == null || port == "") {

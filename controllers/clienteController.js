@@ -10,8 +10,6 @@ const notificacionPuntos = funciones.notificacionPuntos;
 
 
 exports.cliente_controller_post = function(req, res) {
-
-
   const puntosAgregados = Math.round(0.291667*Number(req.body.ptsAAgregar));
   // const puntosConfirmados = req.body.confirmaPuntos;
   const nuevaDate = new Date();
@@ -58,15 +56,11 @@ exports.cliente_controller_post = function(req, res) {
                 res.send(err);
               }
             });
-
           }
         });
-
       } else {
         res.render("error", {accionRegistro: "DNI no coincide con registro de numero de Cliente", accionConfirmada: ""});
       }
     });
   }
-
-
 };
