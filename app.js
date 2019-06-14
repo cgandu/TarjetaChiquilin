@@ -153,7 +153,39 @@ function start () {
 
   app.post("/validar", function(req, res){
     const codValidacion = req.body.codValidacion;
-    console.log(codValidacion);
+    const idCanje = req.body.idCanje;
+
+    var validacionCanje = new Promise(function(resolve, reject){
+      Canje.findOne({_id: idCanje}, function(err, doc){
+        if (err) {
+          return reject(err);
+        } else if (!doc) {
+          return reject("No se encontro numero de canje");
+        } else if (codValidacion !== doc.codValidacion) {
+          return reject("Codigo de validacion no es valido");
+        } else if (codValidacion === doc.codValidacion) {
+          return resolve(doc._id);
+        }
+      });
+    }).then(function(id){
+      return new Promise(function(resolve, reject){
+      Canje.findOneAndUpdate({_id: id}, {$set: {validado: true}}, function(err, doc){
+        if (err) {
+          return reject(err);
+        } else if (!doc) {
+          return reject("No se encontro numero de canje");
+        } else {
+          return resolve(codValidacion);
+        }
+      });
+      });
+    }).then(function(codValidacion){
+      res.render("confirma", {horaConfirmada: "Canje validado exitosamente", accionConfirmada: codValidacion});
+    }).catch(function(err){
+      console.log(err);
+      res.render("error", {accionConfirmada: err});
+    });
+    
   });
 
   let port = process.env.PORT;
