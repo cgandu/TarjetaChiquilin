@@ -193,16 +193,16 @@ var details = {};
 details.smartEmailID = '9f571f67-0d52-411d-b046-0bb2f74ce217';
 
 // Add the 'To' email address
-details.to = "Carlos <carloseganduglia@gmail.com>";
+details.to = "carloseganduglia@gmail.com";
 
 
 // Send the smart email(and provide a callback function that takes an error and a response parameter)
 api.transactional.sendSmartEmail(details, function (err, res) {
     if (err) {
         console.log(err);
-        
-    } else {
 
+    } else {
+      console.log("notificacion a Carlos enviada exitosamente");
     }
 });
 
