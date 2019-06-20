@@ -10,6 +10,7 @@ const funciones = require(__dirname+"/funciones");
 const fechaAString = funciones.fechaAString;
 const horaAString = funciones.horaAString;
 const activacionEmail = funciones.activacionEmail;
+const notiAdminNuevoUsuario = funciones.notiAdminNuevoUsuario;
 
 
 exports.registro_controller_get = function(req, res){
@@ -121,6 +122,7 @@ Promise.all([
           activacionEmail(linkhash, req.body.mailCliente);
           req.logout();
           res.render("activecuenta", {logmethod: "Login"});
+          notiAdminNuevoUsuario();
           nuevoMovimiento.save(function(err) {
             if (err) {
               return console.log(err);
