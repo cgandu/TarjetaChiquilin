@@ -28,15 +28,10 @@ function start () {
   const findOrCreate = require("mongoose-findorcreate");
   const loginController = require(__dirname + "/controllers/loginController");
   const adminController = require(__dirname + "/controllers/adminController");
-  const clienteController = require(__dirname + "/controllers/clienteController");
   const registroController = require(__dirname + "/controllers/registroController");
-  const descargasController = require(__dirname + "/controllers/descargasController");
   const activaController = require(__dirname + "/controllers/activaController");
-  const asignarController = require(__dirname + "/controllers/asignarController");
-  const asignartarjetaController = require(__dirname + "/controllers/asignartarjetaController");
   const usrController = require(__dirname + "/controllers/usrController");
-  const googleController = require(__dirname + "/controllers/googleController");
-  const canjeaController = require(__dirname + "/controllers/canjeaController");
+  const googleController = require(__dirname + "/controllers/googleController");  
   const resetpassController = require(__dirname + "/controllers/resetpassController");
   const varios = require(__dirname + "/controllers/varios");
   const _ = require("lodash");
