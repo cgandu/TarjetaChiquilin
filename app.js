@@ -34,7 +34,7 @@ function start () {
   const activaController = require(__dirname + "/controllers/activaController");
   const asignarController = require(__dirname + "/controllers/asignarController");
   const asignartarjetaController = require(__dirname + "/controllers/asignartarjetaController");
-  const usrhomeController = require(__dirname + "/controllers/usrhomeController");
+  const usrController = require(__dirname + "/controllers/usrController");
   const googleController = require(__dirname + "/controllers/googleController");
   const canjeaController = require(__dirname + "/controllers/canjeaController");
   const resetpassController = require(__dirname + "/controllers/resetpassController");
@@ -123,9 +123,10 @@ function start () {
   //middleware para redirigir si no esta isAuthenticated
   app.all("*", checkLogueado);
 
-  app.get("/canjea/confirma/:idObjeto", canjeaController.canje_confirma_get);
-  app.post("/canjea/confirma/:idObjeto", canjeaController.canje_confirma_post);
-  app.get("/usrhome", usrhomeController.usrhome_controller_get);
+  app.get("/canjea/confirma/:idObjeto", usrController.canje_confirma_get);
+  app.post("/canjea/confirma/:idObjeto", usrController.canje_confirma_post);
+  app.get("/usrhome", usrController.usrhome_controller_get);
+
   app.get("/logout", loginController.logout_controller_get);
 
   //middleware para redirigir si esAdmin = false
@@ -133,60 +134,62 @@ function start () {
 
   app.get("/admin", adminController.admin_controller_get);
   app.post("/admin", adminController.admin_controller_post);
-  app.post("/admin/clientes/:clienteAddress", clienteController.cliente_controller_post);
-  app.get("/descargas", descargasController.descargas_controller_get);
-  app.get("/asignar", asignarController.asignar_controller_get);
-  app.post("/asignar", asignarController.asignar_controller_post);
-  app.post("/asignartarjeta", asignartarjetaController.asignartarjeta_controller_post);
+  app.post("/admin/clientes/:clienteAddress", adminController.cliente_controller_post);
+  app.get("/descargas", adminController.descargas_controller_get);
+  app.get("/asignar", adminController.asignar_controller_get);
+  app.post("/asignar", adminController.asignar_controller_post);
+  app.post("/asignartarjeta", adminController.asignartarjeta_controller_post);
+  app.post("/canjes", adminController.canjes_habilitados_post);
+  app.post("/validar", adminController.validar_canjes_post);
 
-  app.post("/canjes", function(req, res){
-    const nombreCliente = req.body.nombreCliente;
-    const numeroCliente = req.body.numeroCliente;
-    Canje.find({cliente: numeroCliente, validado: false}, function(err, docs){
-      if (err) {
-        return err;
-      } else {
-        res.render("canjeshabilitados", {nombreCliente: nombreCliente, docs: docs});
-      }
-    });
-  });
+  // app.post("/canjes", function(req, res){
+  //   const nombreCliente = req.body.nombreCliente;
+  //   const numeroCliente = req.body.numeroCliente;
+  //   Canje.find({cliente: numeroCliente, validado: false}, function(err, docs){
+  //     if (err) {
+  //       return err;
+  //     } else {
+  //       res.render("canjeshabilitados", {nombreCliente: nombreCliente, docs: docs});
+  //     }
+  //   });
+  // });
 
-  app.post("/validar", function(req, res){
-    const codValidacion = req.body.codValidacion;
-    const idCanje = req.body.idCanje;
-
-    var validacionCanje = new Promise(function(resolve, reject){
-      Canje.findOne({_id: idCanje}, function(err, doc){
-        if (err) {
-          return reject(err);
-        } else if (!doc) {
-          return reject("No se encontro numero de canje");
-        } else if (codValidacion !== doc.codValidacion) {
-          return reject("Codigo de validacion no es valido");
-        } else if (codValidacion === doc.codValidacion) {
-          return resolve(doc._id);
-        }
-      });
-    }).then(function(id){
-      return new Promise(function(resolve, reject){
-      Canje.findOneAndUpdate({_id: id}, {$set: {validado: true}}, function(err, doc){
-        if (err) {
-          return reject(err);
-        } else if (!doc) {
-          return reject("No se encontro numero de canje");
-        } else {
-          return resolve(codValidacion);
-        }
-      });
-      });
-    }).then(function(codValidacion){
-      res.render("confirma", {horaConfirmada: "Canje validado exitosamente", accionConfirmada: codValidacion});
-    }).catch(function(err){
-      console.log(err);
-      res.render("error", {accionConfirmada: err});
-    });
-
-  });
+  // app.post("/validar", function(req, res){
+  //   const codValidacion = req.body.codValidacion;
+  //   const idCanje = req.body.idCanje;
+  //
+  //   var validacionCanje = new Promise(function(resolve, reject){
+  //     Canje.findOne({_id: idCanje}, function(err, doc){
+  //       if (err) {
+  //         return reject(err);
+  //       } else if (!doc) {
+  //         return reject("No se encontro numero de canje");
+  //       } else if (codValidacion !== doc.codValidacion) {
+  //         return reject("Codigo de validacion no es valido");
+  //       } else if (codValidacion === doc.codValidacion) {
+  //         return resolve(doc._id);
+  //       }
+  //     });
+  //   }).then(function(id){
+  //     return new Promise(function(resolve, reject){
+  //     Canje.findOneAndUpdate({_id: id}, {$set: {validado: true}}, function(err, doc){
+  //       if (err) {
+  //         return reject(err);
+  //       } else if (!doc) {
+  //         return reject("No se encontro numero de canje");
+  //       } else {
+  //         return resolve(codValidacion);
+  //       }
+  //     });
+  //     });
+  //   }).then(function(codValidacion){
+  //     res.render("confirma", {horaConfirmada: "Canje validado exitosamente", accionConfirmada: codValidacion});
+  //   }).catch(function(err){
+  //     console.log(err);
+  //     res.render("error", {accionConfirmada: err});
+  //   });
+  //
+  // });
 
   let port = process.env.PORT;
   if (port == null || port == "") {
@@ -196,7 +199,7 @@ function start () {
   app.listen(port, function(req, res) {
     console.log("Servidor iniciado");
   });
-  
+
   //
   // app.get("/actualizoproductos", function(req, res){
   //
