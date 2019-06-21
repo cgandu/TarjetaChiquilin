@@ -31,6 +31,8 @@ exports.horaAString = function horaAString(date) {
   }
   return " " + hor + ":" + min + ":" + seg + " ";};
 
+
+
   exports.notificacionPuntos = function notificacionPuntos(infoMov, recipient){
 
     // con npm install createsend-node

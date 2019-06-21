@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+
+  <form class="produ" action="/actualizoproductos" method="post">
+
+  <% for (var i=0; i < docs.length ; i++) { %>
+    <input type="text" name="nombreProducto" value="<%= docs[i].nombreProducto %>" readonly>
+    <br>
+    <input type="text" name="_idProducto" value="<%= docs[i]._id %>" readonly>
+    <br>
+    <textarea name="descripcionProducto" rows="8" cols="80">LaLALALALAL</textarea>
+    <hr>
+<%  } %>
+    <button type="submit" name="button">Submit</button>
+
+
+  </form>
+
+  </body>
+</html>
+<!-- <% docs.forEach(function(doc){ %>
+<% }) %> -->

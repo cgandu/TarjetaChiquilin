@@ -185,7 +185,7 @@ function start () {
       console.log(err);
       res.render("error", {accionConfirmada: err});
     });
-    
+
   });
 
   let port = process.env.PORT;
@@ -196,9 +196,50 @@ function start () {
   app.listen(port, function(req, res) {
     console.log("Servidor iniciado");
   });
+  
+  //
+  // app.get("/actualizoproductos", function(req, res){
+  //
+  //   Producto.find({}, function(err, docs){
+  //
+  //     if (err) {
+  //       return "Error al buscar productos: " + err;
+  //     } else if(!docs) {
+  //       return "No se encontraron productos";
+  //     } else {
+  //       res.render("actualizacionproductos", {docs: docs});
+  //     }
+  //
+  //   });
+  //
+  // });
 
 
-
+////////////////// ACTUALIZA DESCRIPCIÓN PRODUCTOS /////////////////////
+// app.post("/actualizoproductos", function(req, res){
+//
+//
+//   const _id = req.body._idProducto;
+//   const nombre = req.body.nombreProducto;
+//   const desc = req.body.descripcionProducto;
+//
+//
+//
+//   for (var i = 0; i<18 ; i++){
+//     Producto.findOneAndUpdate({_id: _id[i]}, {$set: {descripcionProducto: desc[i]}}, function(err, doc){
+//       if (err) {
+//         return err;
+//       } else if (!doc) {
+//         return "Documento no encontrado";
+//       }
+//     });
+//
+//     // console.log(_id[i]);
+//     // console.log(nombre[i]);
+//     // console.log(desc[i]);
+//   }
+//
+// });
 
   ///////////////////// CARGA PRODUCTOS /////////////////
 
