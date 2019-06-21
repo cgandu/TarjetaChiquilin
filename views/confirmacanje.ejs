@@ -9,8 +9,7 @@
             <h2 class="card-title" style="text-align: center; color: #000000;"><%= doc.nombreProducto %></h2>
             <hr>
             <h4 class="card-title" style="text-align: center; color: #000000;">Descripcion</h4>
-            <p style="color: #000000;">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>
+            <p style="color: #000000;"><%= doc.descripcionProducto %></p>
 
           </div>
         </div>
@@ -63,7 +62,7 @@
             <input type="hidden" name="nombreCliente" value="<%= cliente.nombreCliente %>">
             <input type="hidden" name="puntosCliente" value="<%= cliente.puntosCliente %>">
             <p style="color: #000000">¿Solicitar canje de <%= doc.nombreProducto %>?</p>
-            
+
             <button class="btn btn-primary" style="width: 100%;" type="submit">SÍ</button>
 
             </form>
