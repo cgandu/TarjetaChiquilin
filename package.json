@@ -22,7 +22,7 @@
     "express": "^4.16.4",
     "express-session": "^1.15.6",
     "fs": "0.0.1-security",
-    "jquery": "^3.3.1",
+    "jquery": "^3.5.0",
     "json2csv": "^4.3.5",
     "lodash": "^4.17.11",
     "mongoose": "^5.4.16",
