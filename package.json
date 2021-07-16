@@ -24,7 +24,7 @@
     "fs": "0.0.1-security",
     "jquery": "^3.3.1",
     "json2csv": "^4.3.5",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.21",
     "mongoose": "^5.4.16",
     "mongoose-findorcreate": "^3.0.0",
     "nodemailer": "^5.1.1",
